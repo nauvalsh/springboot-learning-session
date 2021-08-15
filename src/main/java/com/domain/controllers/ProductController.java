@@ -1,8 +1,12 @@
 package com.domain.controllers;
 
+import java.util.List;
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import com.domain.dto.ResponseData;
+import com.domain.dto.SearchDto;
 import com.domain.dto.SupplierDto;
 import com.domain.dto.UploadFileDto;
 import com.domain.models.entities.Product;
@@ -80,6 +84,27 @@ public class ProductController {
   @PostMapping("/{productId}")
   public void addSupplier(@RequestBody Supplier supplier, @PathVariable("productId") Long productId){
     productService.addSupplier(supplier, productId);
+  }
+  
+  @GetMapping("/search")
+  public List<Product> getByProductName(@RequestParam("name") Optional<String> name, @RequestParam("ids") String ids){
+    System.out.println("IDS: " + ids);
+    if(name.isPresent()){
+      System.out.println("Helow bos");
+    }
+    
+
+    return productService.findByProductIds(ids);
+  }
+
+  @GetMapping("/search/category/{categoryId}")
+  public List<Product> getByProductName(@PathVariable("categoryId") long categoryId){
+    return productService.findByCategory(categoryId);
+  }
+
+  @GetMapping("/search/supplier/{supplierId}")
+  public List<Product> getByProductName(@PathVariable("supplierId") Long supplierId){
+    return productService.findBySupplier(supplierId);
   }
   
   @PostMapping("/upload")

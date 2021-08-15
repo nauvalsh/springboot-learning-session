@@ -50,6 +50,7 @@ public class Product implements Serializable {
   @ManyToOne
   private Category category;
 
+
   @ManyToMany(fetch = FetchType.LAZY, targetEntity = Supplier.class)
   @JoinTable(
   name = "tb_product_supplier",

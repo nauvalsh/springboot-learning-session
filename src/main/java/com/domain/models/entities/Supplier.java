@@ -41,6 +41,7 @@ public class Supplier implements Serializable {
   private String email;
 
   @ManyToMany(mappedBy = "suppliers", targetEntity = Product.class)
+  @JsonBackReference
   private Set<Product> products;
 
   public Long getId() {
