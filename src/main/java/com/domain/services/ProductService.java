@@ -3,16 +3,17 @@ package com.domain.services;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
+import javax.transaction.TransactionScoped;
 
 import com.domain.models.entities.Product;
+import com.domain.models.entities.Supplier;
 import com.domain.models.repositories.ProductRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@Transactional
+@TransactionScoped
 public class ProductService {
   
   @Autowired
@@ -47,6 +48,19 @@ public class ProductService {
 
   public List<Product> findByNameContains(String name){
     return productRepository.findByNameContains(name);
+  }
+
+  public void addSupplier(Supplier supplier, Long productId){
+    Product product = findOne(productId);
+    
+    if(product == null){
+      throw new RuntimeException("Product with ID: "+ productId+" not found");
+    }
+
+    product.getSupplier().add(supplier);
+
+    save(product);
+    
   }
   
 }

@@ -11,8 +11,18 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name = "tb_supplier")
+@JsonIdentityInfo(
+  generator = ObjectIdGenerators.PropertyGenerator.class,
+  property = "id"
+)
 public class Supplier implements Serializable {
   
   private static final long serialVersionUID=1L;
@@ -30,7 +40,7 @@ public class Supplier implements Serializable {
   @Column(length = 150, nullable = false, unique = true)
   private String email;
 
-  @ManyToMany(mappedBy = "suppliers")
+  @ManyToMany(mappedBy = "suppliers", targetEntity = Product.class)
   private Set<Product> products;
 
   public Long getId() {
